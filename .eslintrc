@@ -13,6 +13,7 @@
     "import/prefer-default-export": 0,
     "no-alert": 0,
     "no-plusplus": 0,
+    "no-underscore-dangle": 0,
     "prettier/prettier": 2,
      "semi": [ "error", "never" ],
      "semi-style": ["error", "last"]
