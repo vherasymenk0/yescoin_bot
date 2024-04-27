@@ -4,5 +4,5 @@ my_sessions/
 .env
 .idea/
 .vscode/
-.proxies.txt
-.accounts.txt
+proxies.txt
+accounts.txt
