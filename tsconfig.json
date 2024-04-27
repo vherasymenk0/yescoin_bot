@@ -9,6 +9,11 @@
     "strict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "isolatedModules": false,
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
+    ]
   }
 }
