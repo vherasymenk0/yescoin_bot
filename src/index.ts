@@ -1,1 +1,3 @@
-console.log('Hello world!')
+import { createSession } from './features/createSession'
+
+createSession()
