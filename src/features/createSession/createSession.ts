@@ -1,10 +1,10 @@
 import { TelegramClient } from 'telegram'
 import { StringSession } from 'telegram/sessions'
-import input from 'input'
 import { SETTINGS } from '../../config'
 import { saveSession } from './saveSession'
+import { InputType } from '../../types'
 
-export const createSession = async (): Promise<void> => {
+export const createSession = async (input: InputType): Promise<void> => {
   const { API_ID, API_HASH } = SETTINGS
 
   const client = new TelegramClient(new StringSession(''), API_ID, API_HASH, {
@@ -14,15 +14,15 @@ export const createSession = async (): Promise<void> => {
   try {
     await client.start({
       phoneNumber: async () => input.text('Please enter your number: '),
-      password: async () => input.text('Please enter your password: '),
-      phoneCode: async () => input.text('Please enter the code you received: '),
+      password: async () => input.password('Please enter your password: '),
+      phoneCode: async () => input.password('Please enter the code you received: '),
       onError: (err) => console.log(err),
     })
 
     const { username } = await client.getMe()
     console.log(`@${username} | session successfully created`)
 
-    await saveSession(client)
+    await saveSession(client, input)
   } finally {
     client.session.close()
     await client.disconnect()
