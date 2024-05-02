@@ -38,6 +38,7 @@
     "input": "^1.0.1",
     "querystringify": "^2.2.0",
     "socks-proxy-agent": "^8.0.3",
-    "telegram": "^2.20.15"
+    "telegram": "^2.20.15",
+    "winston": "^3.13.0"
   }
 }
