@@ -6,6 +6,7 @@ import * as input from 'input'
 import { globSync } from 'glob'
 import { SETTINGS } from '../config'
 import { SESSION_FOLDER } from '../constants'
+import { logger } from './logger'
 
 class SessionService {
   async createSession(): Promise<void> {
@@ -20,11 +21,11 @@ class SessionService {
         phoneNumber: async () => input.text('Please enter your number: '),
         password: async () => input.password('Please enter your password: '),
         phoneCode: async () => input.password('Please enter the code you received: '),
-        onError: (err) => console.log(err),
+        onError: (err) => logger.error(String(err)),
       })
 
       const { username } = await client.getMe()
-      console.log(`@${username} | session successfully created`)
+      logger.success(`@${username} | session successfully created`)
 
       await this.saveSession(client)
     } finally {
@@ -44,13 +45,13 @@ class SessionService {
     const isExistedFile = fs.existsSync(sessionFileName)
 
     if (isExistedFile) {
-      console.warn(`File with ${sessionName} name already exists, use a different one`)
+      logger.warn(`File with ${sessionName} name already exists, use a different one`)
       await this.saveSession(client)
     } else {
       const sessionString = client.session.save() as unknown as string
 
       fs.writeFileSync(path.resolve(sessionFileName), sessionString)
-      console.log(`Session has been successfully saved to ${sessionFileName}`)
+      logger.success(`Session has been successfully saved to ${sessionFileName}`)
     }
   }
 

@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { logger } from '../services/logger'
 
 dotenv.config()
 
@@ -15,7 +16,7 @@ export const getEnvVar = <T extends keyof NodeJS.ProcessEnv>(name: T, defaultVal
 
     return value
   } catch (error) {
-    console.error(`Error getting ${name}:`, error)
+    logger.error(`Error while getting ${name} env var: ${error}`)
     return process.exit(1)
   }
 }

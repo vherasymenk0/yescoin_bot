@@ -3,6 +3,7 @@ import axios from 'axios'
 import fs from 'fs'
 import { IpInfo, Proxy } from '../types'
 import { SETTINGS } from '../config'
+import { logger } from './logger'
 
 const IP_INFO_URL = 'https://ipinfo.io/json'
 const REGEX =
@@ -63,10 +64,12 @@ class ProxyService {
       const res = await axios.get<IpInfo>(IP_INFO_URL, { timeout: 5000, httpsAgent })
       const { ip, country, city, timezone } = res.data
 
-      console.log(`${sessionName} | proxy_info: ${ip} | ${country} | ${city} | ${timezone}`)
+      logger.info(`${sessionName} | proxy_info: ${ip} | ${country} | ${city} | ${timezone}`)
       return true
     } catch (e) {
-      console.log(`Error during connect to proxy: ${sessionName} | IP: ${proxy.host} | error: ${e}`)
+      logger.error(
+        `Error during connect to proxy | ${sessionName} | IP: ${proxy.host} | error: ${e}`,
+      )
       return true
     }
   }

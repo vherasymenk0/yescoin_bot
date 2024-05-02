@@ -7,9 +7,9 @@ import { SETTINGS } from '../config'
 import { SESSION_FOLDER } from '../constants'
 import { proxyService } from '../services/proxyService'
 import { sessionService } from '../services/sessionService'
-import { Proxy, TgClientInstance } from '../types'
+import { Proxy } from '../types'
 
-export const getTgClients = async (): Promise<TgClientInstance[]> => {
+export const getTgClients = async () => {
   const sessionNames = sessionService.getSessionNames()
   const { API_HASH, API_ID } = SETTINGS
 
