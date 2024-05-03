@@ -14,15 +14,15 @@ export const HeaderData = {
   'x-requested-with': 'org.telegram.messenger',
 }
 
-const baseApiUrl = 'https://api.yescoin.gold'
+export const baseURL = 'https://api.yescoin.gold/'
 export const apiMap = {
-  login: `${baseApiUrl}/login`,
-  accountInfo: `${baseApiUrl}/account/getAccountInfo`,
-  gameInfo: `${baseApiUrl}/game/getGameInfo`,
-  boostersInfo: `${baseApiUrl}/build/getAccountBuildInfo`,
-  boosterLevelUp: `${baseApiUrl}/build/levelUp`,
-  applyTurboBoost: `${baseApiUrl}/game/recoverSpecialBox`,
-  applyRecoverEnergy: `${baseApiUrl}/game/recoverCoinPool`,
-  collect: `${baseApiUrl}/game/collectCoin`,
-  collectWithTurbo: `${baseApiUrl}/game/collectSpecialBoxCoin`,
+  login: 'user/login',
+  accountInfo: 'account/getAccountInfo',
+  gameInfo: 'game/getGameInfo',
+  boostersInfo: 'build/getAccountBuildInfo',
+  boosterLevelUp: 'build/levelUp',
+  applyTurboBoost: 'game/recoverSpecialBox',
+  applyRecoverEnergy: 'game/recoverCoinPool',
+  collect: 'game/collectCoin',
+  collectWithTurbo: 'game/collectSpecialBoxCoin',
 } as const

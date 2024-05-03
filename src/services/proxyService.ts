@@ -2,23 +2,33 @@ import { SocksProxyAgent } from 'socks-proxy-agent'
 import axios from 'axios'
 import fs from 'fs'
 import { IpInfo, Proxy } from '../types'
-import { SETTINGS } from '../config'
 import { logger } from './logger'
 
 const IP_INFO_URL = 'https://ipinfo.io/json'
 const REGEX =
   /^(?<protocol>\w+):\/\/((?<login>[\w-]+):(?<password>[\w-]+)@)?(?<host>[\w.-]+):(?<port>\d+)$/
 
+const proxiesFileName = 'proxies.txt'
+
 class ProxyService {
   getProxies() {
-    let proxyList: Proxy[] = []
+    const isExistedProxies = fs.existsSync(proxiesFileName)
 
-    if (SETTINGS.USE_PROXY_FROM_FILE)
-      proxyList = fs
-        .readFileSync('proxies.txt', 'utf-8')
-        .split(/\r?\n/)
-        .map(this.parse)
-        .filter((proxy): proxy is Proxy => proxy !== null)
+    if (!isExistedProxies) {
+      logger.error(`Cannot find ${proxiesFileName}}`)
+      process.exit(1)
+    }
+
+    const proxyList = fs
+      .readFileSync(proxiesFileName, 'utf-8')
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .map(this.parse)
+
+    if (proxyList.length === 0) {
+      logger.error(`${proxiesFileName} is empty`)
+      process.exit(1)
+    }
 
     return proxyList
   }
@@ -32,10 +42,14 @@ class ProxyService {
     return new SocksProxyAgent(proxyString)
   }
 
-  parse(proxyString: string): Proxy | null {
+  parse(proxyString: string) {
     const match = proxyString.trim().match(REGEX)
 
-    if (!match || !match.groups) return null
+    if (!match || !match.groups) {
+      logger.error('Invalid proxy format')
+      logger.info('Proxy template example -> socks5://login:password@ip:port')
+      process.exit(1)
+    }
 
     const { protocol, host, port, login, password } = match.groups
 

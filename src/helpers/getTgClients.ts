@@ -8,24 +8,31 @@ import { SESSION_FOLDER } from '../constants'
 import { proxyService } from '../services/proxyService'
 import { sessionService } from '../services/sessionService'
 import { Proxy } from '../types'
+import { logger } from '../services/logger'
 
 export const getTgClients = async () => {
   const sessionNames = sessionService.getSessionNames()
-  const { API_HASH, API_ID } = SETTINGS
+  const sessionsCount = sessionService.getSessionNames().length
+  logger.info(`Detected ${sessionsCount} ${sessionsCount > 1 ? 'sessions' : 'session'}`)
 
-  if (sessionNames.length === 0) throw new Error('Not found session files')
+  const { API_HASH, API_ID, USE_PROXY_FROM_FILE } = SETTINGS
 
-  const proxies = proxyService.getProxies()
-  const proxyIterator = proxies.length > 0 ? proxyService.createProxyIterator(proxies) : null
+  let proxyIterator = null
+  if (USE_PROXY_FROM_FILE) {
+    logger.info(`Bot is running in proxy mode`)
+    const proxies = proxyService.getProxies()
+    logger.info(`Detected ${proxies.length} proxies`)
+    proxyIterator = proxyService.createProxyIterator(proxies)
+  }
 
   const tgClients = sessionNames.map((sessionName) => {
     const sessionFileName = path.resolve(`${SESSION_FOLDER}/${sessionName}.txt`)
     const sessionString = fs.readFileSync(sessionFileName, 'utf-8')
     let tgClientParams: TelegramClientParams = { connectionRetries: 5 }
     let proxy = null
-    if (proxyIterator) proxy = proxyIterator.next().value as Proxy
 
-    if (proxy)
+    if (proxyIterator) {
+      proxy = proxyIterator.next().value as Proxy
       tgClientParams = {
         ...tgClientParams,
         proxy: {
@@ -38,6 +45,7 @@ export const getTgClients = async () => {
           password: proxy.password,
         },
       }
+    }
 
     const tgClient = new TelegramClient(
       new StringSession(sessionString),

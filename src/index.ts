@@ -1,17 +1,12 @@
 import * as input from 'input'
 import { START_TEXT } from './constants'
 import { logger } from './services/logger'
-import { proxyService } from './services/proxyService'
 import { sessionService } from './services/sessionService'
+import { startBot } from './bot/launcher'
 
 const handleAction = (action: number) => {
   if (action === 1) sessionService.createSession()
-  else if (action === 2) {
-    const sessionsCount = sessionService.getSessionNames().length
-    const proxiesCount = proxyService.getProxies().length
-
-    logger.info(`Detected ${sessionsCount} sessions | ${proxiesCount} proxies`)
-  }
+  else startBot()
 }
 
 const start = async (message?: string) => {

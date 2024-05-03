@@ -1,1 +1,1 @@
-export { Api } from './api'
+export { YesCoinApi } from './api'

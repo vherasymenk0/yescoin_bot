@@ -56,8 +56,22 @@ class SessionService {
   }
 
   getSessionNames() {
+    const isExistedSessions = fs.existsSync(SESSION_FOLDER)
+
+    if (!isExistedSessions) {
+      logger.error(`Cannot find ${SESSION_FOLDER}}`)
+      process.exit(1)
+    }
+
     const sessionNames = globSync(`${SESSION_FOLDER}/*.txt`)
-    return sessionNames.map((file) => path.basename(file, path.extname(file)))
+    const sessionsList = sessionNames.map((file) => path.basename(file, path.extname(file)))
+
+    if (sessionsList.length === 0) {
+      logger.error('Not found session files')
+      process.exit(1)
+    }
+
+    return sessionsList
   }
 }
 
