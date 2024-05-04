@@ -54,7 +54,7 @@ export class Clicker {
       new Api.messages.RequestWebView({
         peer,
         bot,
-        fromBotMenu: true,
+        fromBotMenu: false,
         platform: 'android',
         url: this.appUrl,
       }),
