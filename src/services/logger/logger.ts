@@ -26,7 +26,11 @@ class Logger {
     this.logger = createLogger({
       levels: this.levels,
       level: 'debug',
-      format: format.combine(format.timestamp({ format: 'HH:mm:ss' }), this.customFormat),
+      format: format.combine(
+        format.timestamp({ format: 'HH:mm:ss' }),
+        format.errors({ stack: true }),
+        this.customFormat,
+      ),
       transports: [new transports.Console()],
     })
   }
@@ -64,8 +68,14 @@ class Logger {
   warn(message: string) {
     this.logger.warn(message)
   }
-  error(message: string) {
-    this.logger.error(message)
+  error(message: string, error?: Error) {
+    if (error) {
+      const err = error.stack?.split('\n')[0]
+      const stack = error.stack?.split('\n')[1]
+      this.logger.error(`${message} ${err}\n${stack}`)
+    } else {
+      this.logger.error(message)
+    }
   }
   success(message: string) {
     this.logger.log({ level: 'success', message })
