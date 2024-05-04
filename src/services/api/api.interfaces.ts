@@ -4,7 +4,7 @@ interface BaseResponse {
 }
 
 export interface BooleanResponse extends BaseResponse {
-  data: boolean
+  data: boolean | null
 }
 
 export interface LoginResponse extends BaseResponse {
@@ -21,7 +21,7 @@ export interface AccountInfoResponse extends BaseResponse {
     rank: number
     userLevel: number
     userId: number
-  }
+  } | null
 }
 
 export interface GameInfoResponse extends BaseResponse {
@@ -31,7 +31,7 @@ export interface GameInfoResponse extends BaseResponse {
     coinPoolLeftCount: number
     coinPoolRecoverySpeed: number
     lastTimeStamp: number
-  }
+  } | null
 }
 
 export interface BoostsInfoResponse extends BaseResponse {
@@ -47,12 +47,12 @@ export interface BoostsInfoResponse extends BaseResponse {
     coinPoolTotalCount: number
     coinPoolTotalLevel: number
     coinPoolTotalUpgradeCost: 200
-  }
+  } | null
 }
 
 export interface CollectResponse extends BaseResponse {
   data: {
     collectAmount: number
     collectStatus: boolean
-  }
+  } | null
 }
