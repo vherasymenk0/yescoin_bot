@@ -22,8 +22,6 @@ export class YesCoinApi {
       baseURL,
       headers: {
         ...HeaderData,
-        Token:
-          'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2Njc0NTk0NTY2IiwiY2hhdElkIjoiNjY3NDU5NDU2NiIsImlhdCI6MTcxNDgzMzIzNSwiZXhwIjoxNzE3NDI1MjM1LCJyb2xlQXV0aG9yaXplcyI6W10sInVzZXJJZCI6MTc4NTMyNDA5MDU2MTU2ODc2OH0.5GI87b2zTNljamkldBX2E9h38SSp9vNSjwRY1l_iWN3rsYzYONfw08mlVXh3esV1VFhPqVfHJMj5ocIR7OlfEw          ',
       },
     })
   }
