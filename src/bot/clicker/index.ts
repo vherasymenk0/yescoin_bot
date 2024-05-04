@@ -1,0 +1,1 @@
+export { Clicker } from './clicker'
